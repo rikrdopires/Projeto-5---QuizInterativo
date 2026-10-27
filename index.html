@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo</title>
+</head>
+<body>
+    <header class="app_header">
+        <h1>Quiz Interativo</h1>
+        <p>Teste seus conhecimentos!</p>
+    </header>
+
+    <main class="app_main">
+        <section id="start_screen" class="screen">
+            <h2>Pronto para começar?</h2>
+            <p>Escolha quantas questões deseja responder.</p>
+
+            <div class="session_settings">
+                <label for="question_count">Quantidade de questões</label>
+
+                <input 
+                type="number"
+                id="question_count"
+                name="questionCount"
+                min="1"
+                value="10"
+                required
+                >
+            </div>
+
+            <p>tempo por questão: 60 segundos.</p>
+            <p>Ajudas dos universitários: 3 por sessão.</p>
+
+            <button id="start_button" type="button">Iniciar Quiz</button>
+        </section>
+
+        <section id="question_screen" class="screen" hidden>
+            <div class="quiz_info">
+                <p id="question_counter">Pergunta 1 de 10</p>
+                <p id="question_category">Categoria</p>
+                <p id="timer">Tempo: 60s</p>
+            </div>
+
+            <label for="progress_bar">Progresso da sessão</label>
+            <progress id="progress_bar" value="0" max="10"></progress>
+
+            <h2 id="question_text">A pergunta aparecerá aqui.</h2>
+
+            <div id="answer_questions" class="answer_options"></div>
+
+            <div class="hint_area"">
+                <button id="hint_button" type="button">Ajuda dos universitários (3)</button>
+                <p id="hint_text" hidden></p>
+            </div>
+
+            <p id="feedback" aria-live="polite"></p>
+            <button id="next_button" type="button" hidden>Próxima pergunta</button>
+        </section>
+
+        <section id="result_screen" class="screen" hidden>
+            <h2>Quiz finalizado!</h2>
+
+            <div class="score_summary">
+                <p id="final_score">Pontuação: 0</p>
+                <p id="score_percentagem">Aproveitamento: 0%</p>
+                <p id="best_score"> Melhor pontuação: 0</p>
+            </div>
+
+            <section class="performance_section">
+                <h3>Desempenho por disciplina</h3>
+                <div id="category_results"></div>
+            </section>
+
+            <section class="review_section">
+                <h3>Revisão de erros</h3>
+                <div id="mistake_review"></div>
+            </section>
+
+            <section class="study_section">
+                <h3>Recomendações de estudo</h3>
+                <div id="study_recommandations"></div>
+            </section>
+
+            <button id="restart_button" type="button">Jogar novamente</button>
+        </section>
+    </main>
+
+    <footer class="app_footer">
+        <p>Quiz Interativo - Ricardo Entertainment.</p>
+    </footer>
+</body>
+</html>
