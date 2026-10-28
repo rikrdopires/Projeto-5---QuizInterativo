@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Interativo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="app_header">
@@ -24,6 +25,8 @@
                 id="question_count"
                 name="questionCount"
                 min="1"
+                max="30"
+                step="1"
                 value="10"
                 required
                 >
@@ -33,6 +36,7 @@
             <p>Ajudas dos universitários: 3 por sessão.</p>
 
             <button id="start_button" type="button">Iniciar Quiz</button>
+            <p id="config_feedback" aria-live="polite" hidden></p>
         </section>
 
         <section id="question_screen" class="screen" hidden>
@@ -89,5 +93,7 @@
     <footer class="app_footer">
         <p>Quiz Interativo - Ricardo Entertainment.</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

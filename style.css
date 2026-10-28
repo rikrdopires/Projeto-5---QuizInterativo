@@ -1,18 +1,316 @@
 
 /* 1. SETTINGS
 ======================================== */
+:root {
+    --color-primary: #f4f6fa;
+    --color-primary-dark: #1945a3;
+
+    --color-background: #86aaf3;
+    --color-surface: #ffffff;
+    --color-text: #1b2942;
+    --color-muted: #384b5e;
+    --color-border: #0e3980;
+
+    --color-success: #198754;
+    --color-success-bg: #e7f6ed;
+    --color-danger: #dc3545;
+    --color-danger-bg: #fdecef;
+    --color-warning: #b45309;
+    --color-warning-bg: #fff5df;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+}
+
 
 /* 2. GENERIC
 ======================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 
 /* 3. ELEMENTS
 ======================================== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.15rem;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+
+
 
 /* 4. OBJECTS
 ======================================== */
+.app_header,
+.app_footer {
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+}
+
+.app_header h1 {
+    margin-bottom: var(--space-xs);
+    color: var(--color-primary);
+}
+
+.app_header p,
+.app_footer p {
+    color: var(--color-muted);
+}
+
+.app_main {
+    width: min(100% - 32px, 720px);
+    margin: 0 auto;
+}
+
+.screen {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: 0 12px 32px rgba(27, 41, 66, 0.08);
+}
+
+.screen > h2 {
+    margin-bottom: var(--space-md);
+}
+
+.app_footer {
+    font-size: 0.85rem;
+}
+
+
+
 
 /* 5. COMPONENTS
 ======================================== */
+    /* TELA INICIAL */
+
+.session_settings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin: var(--space-lg) 0;
+}
+
+.session_settings label {
+    font-weight: bold;
+}
+
+.session_settings input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+
+   /* BOTÕES */
+
+.screen button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary);
+    color: #d35353;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.screen button:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+}
+
+.screen button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#start_button,
+#next_button,
+#restart_button {
+    width: 100%;
+    margin-top: var(--space-md);
+}
+
+
+    /* TELA DE PERGUNTAS */
+.quiz_info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.quiz_info p {
+    margin-bottom: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+#progress_bar {
+    display: block;
+    width: 100%;
+    height: 12px;
+    margin: var(--space-sm) 0 var(--space-xl);
+    accent-color: var(--color-primary);
+}
+
+#question_text {
+    margin-bottom: var(--space-lg);
+}
+
+.answer_options {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.answer_options button {
+    width: 100%;
+    text-align: left;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.answer_options button:hover:not(:disabled) {
+    background-color: var(--color-background);
+}
+
+.hint_area {
+    margin-top: var(--space-lg);
+}
+
+#hint_button {
+    width: 100%;
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning);
+}
+
+#hint_button:hover:not(:disabled) {
+    background-color: #ffe8b0;
+}
+
+#hint_text,
+#feedback {
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-background);
+}
+
+
+    /* TELA DE RESULTADOS */
+
+.score_summary {
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    border-radius: var(--radius-md);
+    background-color: var(--color-background);
+    text-align: center;
+}
+
+#final_score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+.performance_section,
+.review_section,
+.study_section {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.performance_section h3,
+.review_section h3,
+.study_section h3 {
+    margin-bottom: var(--space-md);
+}
+
+    /* FEEDBACK DA CONFIGURAÇÃO */
+#config_feedback {
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+#config_feedback.is-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+#config_feedback.is-error {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+    /* CONTROLE DE VISIBILIDADE */
+
+[hidden] {
+    display: none !important;
+}
+
+
 
 /* 6. UTILITIES
 ======================================== */
