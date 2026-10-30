@@ -32,7 +32,6 @@
                 >
             </div>
 
-            <p>tempo por questão: 60 segundos.</p>
             <p>Ajudas dos universitários: 3 por sessão.</p>
 
             <button id="start_button" type="button">Iniciar Quiz</button>
@@ -43,17 +42,17 @@
             <div class="quiz_info">
                 <p id="question_counter">Pergunta 1 de 10</p>
                 <p id="question_category">Categoria</p>
-                <p id="timer">Tempo: 60s</p>
             </div>
 
-            <label for="progress_bar">Progresso da sessão</label>
+            <label for="progress_bar">Progresso: <span id="progress_percentage">0%</span>
+            </label>
             <progress id="progress_bar" value="0" max="10"></progress>
 
             <h2 id="question_text">A pergunta aparecerá aqui.</h2>
 
-            <div id="answer_questions" class="answer_options"></div>
+            <div id="answer_options" class="answer_options"></div>
 
-            <div class="hint_area"">
+            <div class="hint_area">
                 <button id="hint_button" type="button">Ajuda dos universitários (3)</button>
                 <p id="hint_text" hidden></p>
             </div>
@@ -67,7 +66,7 @@
 
             <div class="score_summary">
                 <p id="final_score">Pontuação: 0</p>
-                <p id="score_percentagem">Aproveitamento: 0%</p>
+                <p id="score_percentage">Aproveitamento: 0%</p>
                 <p id="best_score"> Melhor pontuação: 0</p>
             </div>
 
@@ -83,7 +82,7 @@
 
             <section class="study_section">
                 <h3>Recomendações de estudo</h3>
-                <div id="study_recommandations"></div>
+                <div id="study_recommendations"></div>
             </section>
 
             <button id="restart_button" type="button">Jogar novamente</button>

@@ -1,0 +1,103 @@
+
+[
+    {
+        "id": 1,
+        "category": "Matemática",
+        "topic": "Equação do primeiro grau",
+        "question": "Qual é o valor de x na equação 3x + 6 = 21?",
+        "options": ["3", "5", "7", "9"],
+        "correctAnswer": 1,
+        "hint": "Em uma equação como 2x + 4 = 12, primeiro isolamos o termo com x e depois dividimos pelo coeficiente.",
+        "explanation": "Subtraindo 6 dos dois lados, temos 3x = 15. Dividindo por 3, encontramos x = 5."
+    },
+    {
+        "id": 2,
+        "category": "Biologia",
+        "topic": "Fotossíntese",
+        "question": "Qual organela celular realiza a fotossíntese nas plantas?",
+        "options": ["Mitocôndria", "Ribossomo", "Cloroplasto", "Lisossomo"],
+        "correctAnswer": 2,
+        "hint": "Pense na organela que contém pigmentos capazes de absorver energia luminosa.",
+        "explanation": "Os cloroplastos contêm clorofila e são responsáveis pelas principais etapas da fotossíntese."
+    },
+    {
+        "id": 3,
+        "category": "Geografia",
+        "topic": "Cartografia",
+        "question": "Em um mapa de escala 1:100.000, quanto representa 1 cm no terreno?",
+        "options": ["100 m", "1 km", "10 km", "100 km"],
+        "correctAnswer": 1,
+        "hint": "Uma escala 1:10.000 representa 10.000 cm no terreno para cada centímetro no mapa. Converta a distância obtida para metros ou quilômetros.",
+        "explanation": "Um centímetro representa 100.000 cm reais, equivalentes a 1.000 metros ou 1 quilômetro."
+    },
+    {
+        "id": 4,
+        "category": "História",
+        "topic": "Brasil Colonial",
+        "question": "Em qual ano ocorreu a chegada da expedição de Pedro Álvares Cabral ao território brasileiro?",
+        "options": ["1492", "1500", "1530", "1549"],
+        "correctAnswer": 1,
+        "hint": "Esse acontecimento ocorreu no início do século XVI, durante a expansão marítima portuguesa.",
+        "explanation": "A expedição comandada por Pedro Álvares Cabral chegou ao território brasileiro em abril de 1500."
+    },
+    {
+        "id": 5,
+        "category": "Português",
+        "topic": "Classes gramaticais",
+        "question": "Na frase 'A menina correu rapidamente', qual palavra é um advérbio?",
+        "options": ["Menina", "Correu", "Rapidamente", "A"],
+        "correctAnswer": 2,
+        "hint": "Na frase 'O estudante respondeu cuidadosamente', uma palavra modifica a maneira como a ação foi realizada.",
+        "explanation": "'Rapidamente' é um advérbio de modo, pois modifica o verbo 'correu', indicando como a ação aconteceu."
+    },
+    {
+        "id": 6,
+        "category": "Física",
+        "topic": "Velocidade média",
+        "question": "Um carro percorre 120 km em 2 horas. Qual é sua velocidade média?",
+        "options": ["40 km/h", "60 km/h", "80 km/h", "120 km/h"],
+        "correctAnswer": 1,
+        "hint": "Se uma bicicleta percorre 30 km em 3 horas, sua velocidade média é obtida dividindo a distância pelo tempo.",
+        "explanation": "A velocidade média é a distância percorrida dividida pelo tempo: 120 ÷ 2 = 60 km/h."
+    },
+    {
+        "id": 7,
+        "category": "Química",
+        "topic": "Tabela periódica",
+        "question": "Qual é o símbolo químico do sódio?",
+        "options": ["S", "So", "Na", "Sd"],
+        "correctAnswer": 2,
+        "hint": "Alguns símbolos químicos derivam de nomes históricos em latim, como Fe para ferro.",
+        "explanation": "O símbolo químico do sódio é Na, derivado do nome latino natrium."
+    },
+    {
+        "id": 8,
+        "category": "Tecnologia",
+        "topic": "HTML",
+        "question": "Qual elemento HTML representa o conteúdo principal de uma página?",
+        "options": ["header", "main", "footer", "nav"],
+        "correctAnswer": 1,
+        "hint": "Pense na organização semântica de uma página: há elementos para navegação, cabeçalho, rodapé e conteúdo central.",
+        "explanation": "O elemento main identifica o conteúdo principal do documento HTML."
+    },
+    {
+        "id": 9,
+        "category": "Matemática",
+        "topic": "Porcentagem",
+        "question": "Quanto é 20% de 150?",
+        "options": ["15", "20", "30", "45"],
+        "correctAnswer": 2,
+        "hint": "Para calcular 10% de 200, podemos multiplicar 200 por 0,10. Aplique o mesmo raciocínio à porcentagem solicitada.",
+        "explanation": "20% corresponde a 0,20. Multiplicando 150 por 0,20, obtemos 30."
+    },
+    {
+        "id": 10,
+        "category": "Biologia",
+        "topic": "Genética",
+        "question": "Qual molécula armazena a informação genética nos organismos celulares?",
+        "options": ["ATP", "DNA", "Glicose", "Lipídio"],
+        "correctAnswer": 1,
+        "hint": "Pense na molécula organizada em sequências de nucleotídeos, associada à transmissão das características hereditárias.",
+        "explanation": "O DNA armazena a informação genética dos organismos celulares, contendo instruções utilizadas no funcionamento e na reprodução celular."
+    }
+]
