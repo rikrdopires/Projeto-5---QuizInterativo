@@ -28,6 +28,11 @@ const answerOptions = document.getElementById("answer_options");
 const progressBar = document.getElementById("progress_bar");
 const progressPercentage = document.getElementById("progress_percentage");
 
+    // seletor de resultados
+const resultScreen = document.getElementById("result_screen");
+const finalScore = document.getElementById("final_score");
+const scorePercentage = document.getElementById("score_percentage");
+const restartButton = document.getElementById("restart_button");
 
     // seletor de feedback
 const feedback = document.getElementById("feedback");
@@ -39,7 +44,10 @@ const nextButton = document.getElementById("next_button");
 const hintButton = document.getElementById("hint_button");
 const hintText = document.getElementById("hint_text");
 
-    
+    // Revisão de erros
+const reviewSection = document.querySelector(".review_section");
+const mistakeReview = document.getElementById("mistake_review");
+
 
 /* 4. ESTADO DA APLICAÇÃO
 ======================================== */
@@ -51,6 +59,8 @@ let currentQuestionIndex = 0;
 
 
 let score = 0;
+
+let sessionAnswers = [];
 
 let hintsRemaining = MAX_HINTS;
 let hintUsedOnCurrentQuestion = false;
@@ -140,6 +150,71 @@ function renderQuestion() {
 }
 
 
+    // calcular o aproveitamento e preecher a tela final
+function renderResults() {
+    const totalQuestions = sessionQuestions.length;
+
+    const percentage = Math.round(
+        (score / totalQuestions) * 100
+    );
+
+    finalScore.textContent = `Pontuação: ${score} de ${totalQuestions}`;
+    scorePercentage.textContent = `Aproveitamento: ${percentage}%`;
+
+    renderMistakeReview();
+
+    questionScreen.hidden = true;
+    resultScreen.hidden = false;
+}
+
+    // revisão dos erros
+function renderMistakeReview() {
+    mistakeReview.innerHTML = "";
+
+    const mistakes = sessionAnswers.filter((answer) => {
+        return !answer.isCorrect;
+    });
+
+    reviewSection.hidden = false;
+    
+    if (mistakes.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "Parabéns! Você não errou nenhuma questão.";
+        mistakeReview.appendChild(message);
+        return;
+    }
+
+    mistakes.forEach((answer, index) => {
+        const item = document.createElement("article");
+        item.classList.add("review_item");
+
+        const title = document.createElement("h4");
+        title.textContent = `Questão ${index + 1} — ${answer.question.category}`;
+        
+        const questionText = document.createElement("p");
+        questionText.textContent = answer.question.question;
+
+        const selectedAnswer = document.createElement("p");
+        selectedAnswer.classList.add("review_wrong");
+        selectedAnswer.textContent = `Sua resposta: ${answer.question.options[answer.selectedIndex]}`;
+
+        const correctAnswer = document.createElement("p");
+        correctAnswer.classList.add("review_correct");
+        correctAnswer.textContent = `Resposta correta: ${answer.question.options[answer.question.correctAnswer]}`;
+    
+        const explanation = document.createElement("p");
+        explanation.textContent = `Explicação: ${answer.question.explanation}`;
+    
+        item.appendChild(title);
+        item.appendChild(questionText);
+        item.appendChild(selectedAnswer);
+        item.appendChild(correctAnswer);
+        item.appendChild(explanation);
+
+        mistakeReview.appendChild(item);
+    });
+}
+
 
 
 /* 7. CONTROLE DO JOGO
@@ -167,6 +242,7 @@ function startQuiz() {
     sessionQuestions = shuffleQuestions(questions).slice(0, selectedQuestionCount);
     currentQuestionIndex = 0;
     score = 0;
+    sessionAnswers = [];
 
     hintsRemaining = MAX_HINTS;
     hintUsedOnCurrentQuestion = false;
@@ -184,6 +260,12 @@ function checkAnswer(selectedIndex) {
     const currentQuestion = sessionQuestions[currentQuestionIndex];
     const isCorrect = selectedIndex === currentQuestion.correctAnswer;
     const answerButtons = answerOptions.querySelectorAll("button");
+
+    sessionAnswers.push({
+        question: currentQuestion,
+        selectedIndex: selectedIndex,
+        isCorrect: isCorrect
+    });
 
     answerButtons.forEach((button, index) => {
         button.disabled = true;
@@ -223,16 +305,27 @@ function nextQuestion() {
         return;
     }
 
-    questionCounter.textContent = "Sessão concluída";
-    questionCategory.textContent = "Resultado";
-    questionText.textContent = "Você concluiu todas as perguntas!";
+    renderResults();
+}
 
-    answerOptions.innerHTML = "";
-    
-    feedback.textContent = `Você acertou ${score} de ${sessionQuestions.length} questões.`;
+    // retornar a tela inicial
+function restartQuiz() {
+    resultScreen.hidden = true;
+    questionScreen.hidden = true;
+    startScreen.hidden = false;
+
+    sessionQuestions = [];
+    currentQuestionIndex = 0;
+    score = 0;
+    sessionAnswers = [];
+
+    hintsRemaining = MAX_HINTS;
+    hintUsedOnCurrentQuestion = false;
+
+    feedback.textContent = "";
     feedback.classList.remove("is-correct", "is-incorrect");
 
-    progressBar.value = sessionQuestions.length;
+    configFeedback.hidden = true;
     nextButton.hidden = true;
 }
 
@@ -271,6 +364,9 @@ questionCountInput.addEventListener("input", () => {
 nextButton.addEventListener("click", nextQuestion);
 
 hintButton.addEventListener("click", showHint);
+
+
+restartButton.addEventListener("click", restartQuiz);
 
 
 /* 9. INICIALIZAÇÃO
