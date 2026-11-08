@@ -4,6 +4,8 @@ const DEFAULT_QUESTION_COUNT = 10
 
 const MAX_HINTS = 3;
 
+const BEST_SCORE_KEY = "quiz_interativo_best_score";
+
 
 /* 2. BANCO DE PERGUNTAS
 ======================================== */
@@ -32,6 +34,7 @@ const progressPercentage = document.getElementById("progress_percentage");
 const resultScreen = document.getElementById("result_screen");
 const finalScore = document.getElementById("final_score");
 const scorePercentage = document.getElementById("score_percentage");
+const bestScore = document.getElementById("best_score");
 const restartButton = document.getElementById("restart_button");
 
     // seletor de feedback
@@ -48,6 +51,13 @@ const hintText = document.getElementById("hint_text");
 const reviewSection = document.querySelector(".review_section");
 const mistakeReview = document.getElementById("mistake_review");
 
+    // desempenho
+const performanceSection = document.querySelector(".performance_section");
+const categoryResults = document.getElementById("category_results");
+const studySection = document.querySelector(".study_section");
+const studyRecommendations = document.getElementById("study_recommendations");
+
+
 
 /* 4. ESTADO DA APLICAÇÃO
 ======================================== */
@@ -61,6 +71,8 @@ let currentQuestionIndex = 0;
 let score = 0;
 
 let sessionAnswers = [];
+
+let bestResult = null;
 
 let hintsRemaining = MAX_HINTS;
 let hintUsedOnCurrentQuestion = false;
@@ -100,6 +112,61 @@ function shuffleQuestions(questionList) {
     return shuffled;
 }
 
+function loadBestResult() {
+    try {
+        const savedResult = localStorage.getItem(BEST_SCORE_KEY);
+
+        if (savedResult === null) {
+            return;
+        }
+
+        const data = JSON.parse(savedResult);
+
+        if (
+            typeof data.score === "number" &&
+            typeof data.total === "number" &&
+            data.total > 0 &&
+            data.score >= 0 &&
+            data.score <= data.total
+        ) {
+            bestResult = data;
+        }
+
+    } catch (error) {
+        console.warn("Não foi possível recuperar o recorde:", error);
+    }
+}
+
+
+function updateBestResult() {
+    const total = sessionQuestions.length;
+
+    const isNewRecord =
+        bestResult === null ||
+        score * bestResult.total > bestResult.score * total ||
+        (
+            score * bestResult.total === bestResult.score * total &&
+            score > bestResult.score
+        );
+
+    if (!isNewRecord) {
+        return;
+    }
+
+    bestResult = {
+        score: score,
+        total: total
+    };
+
+    try {
+        localStorage.setItem(
+        BEST_SCORE_KEY,
+        JSON.stringify(bestResult)
+        );
+    } catch (error) {
+        console.warn("Não foi possível salvar o recorde:", error);
+    }
+}  
 
 
 
@@ -161,7 +228,15 @@ function renderResults() {
     finalScore.textContent = `Pontuação: ${score} de ${totalQuestions}`;
     scorePercentage.textContent = `Aproveitamento: ${percentage}%`;
 
+    updateBestResult();
+    const bestPercentage = Math.round(
+        (bestResult.score / bestResult.total) * 100
+    );
+    bestScore.textContent = `Melhor pontuação: ${bestResult.score} de ${bestResult.total} (${bestPercentage}%)`;
+    bestScore.hidden = false;
+
     renderMistakeReview();
+    renderLearningDiagnosis();
 
     questionScreen.hidden = true;
     resultScreen.hidden = false;
@@ -215,6 +290,83 @@ function renderMistakeReview() {
     });
 }
 
+
+    // calculo de desempenho e painel de estudo
+function renderLearningDiagnosis() {
+    categoryResults.innerHTML = "";
+    studyRecommendations.innerHTML = "";
+
+    const statsByCategory = new Map();
+
+    sessionAnswers.forEach((answer) => {
+        const category = answer.question.category;
+        const topic = answer.question.topic;
+
+        if (!statsByCategory.has(category)) {
+            statsByCategory.set(category, {
+                category: category,
+                total: 0,
+                correct: 0,
+                missedTopics: []
+            });
+        }
+
+        const stats = statsByCategory.get(category);
+        stats.total += 1;
+
+        if (answer.isCorrect) {
+            stats.correct += 1;
+        } else if (!stats.missedTopics.includes(topic)) {
+            stats.missedTopics.push(topic);
+        }
+    });
+
+    statsByCategory.forEach((stats) => {
+        const percentage = Math.round((stats.correct / stats.total) * 100);
+
+        const item = document.createElement("article");
+        item.classList.add("category_item");
+
+        const title = document.createElement("h4");
+        title.textContent = stats.category;
+
+        const result = document.createElement("p");
+        result.textContent = `${stats.correct} de ${stats.total} acertos — ${percentage}%`;
+
+        item.appendChild(title);
+        item.appendChild(result);
+        categoryResults.appendChild(item);
+
+        if (stats.missedTopics.length > 0) {
+            const recommendation = document.createElement("article");
+            recommendation.classList.add("study_item");
+
+            const recommendationTitle = document.createElement("h4");
+            recommendationTitle.textContent = stats.category;
+            const recommendationText = document.createElement("p");
+            recommendationText.textContent = `Revise os assuntos: ${stats.missedTopics.join(", ")}.`;
+            
+            recommendation.appendChild(recommendationTitle);
+            recommendation.appendChild(recommendationText);
+
+            studyRecommendations.appendChild(recommendation);
+        }
+    });
+
+    if (studyRecommendations.children.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "Você acertou todas as questões do Quiz. Continue praticando.";
+        studyRecommendations.appendChild(message);
+    }
+
+    const note = document.createElement("p");
+    note.classList.add("diagnosis_note");
+    note.textContent = "Este diagnóstico considera somente as questões desta Quiz.";
+    studyRecommendations.appendChild(note);
+
+    performanceSection.hidden = false;
+    studySection.hidden = false;
+}
 
 
 /* 7. CONTROLE DO JOGO
@@ -376,6 +528,7 @@ async function init() {
 
     try {
         await loadQuestions();
+        loadBestResult();
         startButton.disabled = false;
 
     } catch (error) {
